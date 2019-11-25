@@ -11,9 +11,22 @@ import com.ailatrieuphu.repository.CauHoiRepository;
 @Service
 public class CauHoiService {
 	@Autowired
-	private CauHoiRepository cauHoiRespository;
-	
-	public List<CauHoi> findAll(){
-		return cauHoiRespository.findAll();
+	private CauHoiRepository cauHoiRepository;
+
+	public List<CauHoi> getAllCauHoi() {
+		return cauHoiRepository.findAll();
+	}
+
+	public List<CauHoi> findByIdLoaiCH(int idLoaiCH) {
+		return cauHoiRepository.findByIdLoaiCH(idLoaiCH);
+	}
+	//add new question
+	public boolean addCauHoi(CauHoi cauHoiNew) {
+		try {
+			cauHoiRepository.save(cauHoiNew);
+			return true;
+		} catch (Exception ex) {
+			return false;
+		}
 	}
 }

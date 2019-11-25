@@ -26,6 +26,15 @@ public class CauHoi {
 	private String cauD;
 	@Column(name = "idloaiCH")
 	private int idLoaiCH;
+	@Column(name = "idUser")
+	private int idUser;
+	@Column(name="CreatedTime")
+	private String createdTime;
+	@Column(name="UpdateTime")
+    private String updateTime;
+	@Column(name="DapAnDung")	
+	private String dapAnDung;
+	
 	public int getIdCauHoi() {
 		return idCauHoi;
 	}
@@ -67,6 +76,30 @@ public class CauHoi {
 	}
 	public void setIdLoaiCH(int idLoaiCH) {
 		this.idLoaiCH = idLoaiCH;
+	}
+	public int getIdUser() {
+		return idUser;
+	}
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
+	}
+	public String getCreatedTime() {
+		return createdTime;
+	}
+	public void setCreatedTime(String createdTime) {
+		this.createdTime = createdTime;
+	}
+	public String getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
+	public String getDapAnDung() {
+		return dapAnDung;
+	}
+	public void setDapAnDung(String dapAnDung) {
+		this.dapAnDung = dapAnDung;
 	}
 	
 }

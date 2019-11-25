@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.ailatrieuphu.model.User;
 import com.ailatrieuphu.repository.UserRepository;
 
@@ -13,7 +12,7 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	//get list user
-	public List<User> findAll(){
+	public List<User> getAllUser(){
 		return userRepository.findAll();
 	}
 	//find user by email and pass to login
@@ -44,4 +43,5 @@ public class UserService {
 			return false;
 		}
 	}
+	
 }

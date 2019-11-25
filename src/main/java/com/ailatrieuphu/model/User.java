@@ -20,6 +20,15 @@ public class User {
 	private String nickname;
 	@Column(name = "Password")
 	private String password;
+	@Column(name = "IsAdminRole")
+	private boolean adminRole;
+	@Column(name="CreatedTime")
+	private String createdTime;
+	@Column(name="UpdateTime")
+    private String updateTime;
+	@Column(name="DiemCao")
+	private int diemCao;
+	
 	public int getIdUser() {
 		return idUser;
 	}
@@ -43,6 +52,30 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getCreatedTime() {
+		return createdTime;
+	}
+	public void setCreatedTime(String createdTime) {
+		this.createdTime = createdTime;
+	}
+	public String getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
+	public boolean isAdminRole() {
+		return adminRole;
+	}
+	public void setAdminRole(boolean adminRole) {
+		this.adminRole = adminRole;
+	}
+	public int getDiemCao() {
+		return diemCao;
+	}
+	public void setDiemCao(int diemCao) {
+		this.diemCao = diemCao;
 	}
 	
 }

@@ -1,11 +1,10 @@
 package com.ailatrieuphu.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,54 +19,52 @@ import com.ailatrieuphu.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
-	//get list user
-	@GetMapping("/listUser")
-	public List<User> getAll(){
-		return userService.findAll();
-	}
-	//check info before Register
+
+	// check info before Register
 	@PostMapping("/check")
 	public String checkUser(@RequestBody User u) {
-		if(userService.existsByEmail(u.getEmail())) {
+		if (userService.existsByEmail(u.getEmail())) {
 			return "email";
 		}
-		if(userService.existsByNickname(u.getNickname())) {
+		if (userService.existsByNickname(u.getNickname())) {
 			return "nickname";
 		}
-		
+
 		return "no";
 	}
-	
-	//member Register success
+
+	// member Register success
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@PostMapping("/addUser")
-	public String insertUser(@RequestBody User u) {
+	public int insertUser(@RequestBody User u) {
 		try {
 			userService.save(u);
-			return "success";
+			User user = userService.findByEmailAndPassword(u.getEmail(), u.getPassword());
+			return user.getIdUser();
 		} catch (Exception e) {
-			return "fail";
+			return 0;
 		}
 	}
-	//Login
+
+	// Login
 	@PostMapping("/login")
-	public ResponseEntity<User> getUserByEmailAndPassword(@RequestBody User u){
-		User user=userService.findByEmailAndPassword(u.getEmail(),u.getPassword());
-		if(user==null) {
+	public ResponseEntity<User> getUserByEmailAndPassword(@RequestBody User u) {
+		User user = userService.findByEmailAndPassword(u.getEmail(), u.getPassword());
+		if (user == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}else {
+		} else {
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		}
 	}
-	//Change pass
-		@PutMapping("/changePass")
-		public String updatePassword(@RequestBody User userChangePass) {
-			if(userService.updatePassword(userChangePass)==true) {
-				return "success";
-			}
-			else {
-				return "failed";
-			}
-			
+
+	// Change pass
+	@PutMapping("/changePass")
+	public String updatePassword(@RequestBody User userChangePass) {
+		if (userService.updatePassword(userChangePass) == true) {
+			return "success";
+		} else {
+			return "failed";
 		}
+
+	}
 }

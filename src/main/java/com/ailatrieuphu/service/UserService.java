@@ -35,6 +35,20 @@ public class UserService {
 	public boolean updatePassword(User userUpdate) {
 		User user = userRepository.findById(userUpdate.getIdUser()).get();
 		user.setPassword(userUpdate.getPassword());
+		user.setUpdateTime(userUpdate.getUpdateTime());
+		try {
+			userRepository.save(user);
+			return true;
+		} catch (Exception ex) {
+			System.out.println("Error: " + ex);
+			return false;
+		}
+	}
+	//update Score
+	public boolean updateScore(User userUpdate) {
+		User user = userRepository.findById(userUpdate.getIdUser()).get();
+		user.setDiemCao(userUpdate.getDiemCao());
+		user.setUpdateTime(userUpdate.getUpdateTime());
 		try {
 			userRepository.save(user);
 			return true;

@@ -67,4 +67,14 @@ public class UserController {
 		}
 
 	}
+	// Modify score
+		@PutMapping("/modifyScore")
+		public String updateScore(@RequestBody User userModifyScore) {
+			if (userService.updateScore(userModifyScore) == true) {
+				return "success";
+			} else {
+				return "failed";
+			}
+
+		}
 }

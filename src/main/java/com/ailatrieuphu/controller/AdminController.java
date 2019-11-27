@@ -5,10 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ailatrieuphu.model.CauHoi;
@@ -25,7 +28,7 @@ public class AdminController {
 	private UserService userService;
 
 //--------------------------------------------------CAUHOI-------------------------------------
-	@GetMapping("/cauhoi/list")
+	@GetMapping("/cauhoi/all/list")
 	public ResponseEntity<List<CauHoi>> getAllCauHoi() {
 		List<CauHoi> listCauHoi = cauHoiService.getAllCauHoi();
 		if (listCauHoi.isEmpty()) {
@@ -44,7 +47,7 @@ public class AdminController {
 	}
 //--------------------------------------------------USER-------------------------------------
 	// get list user
-	@GetMapping("/user/list")
+	@GetMapping("/user/all/list")
 	public ResponseEntity<List<User>> getAllUser() {
 		List<User> listUser = userService.getAllUser();
 		if (listUser.isEmpty()) {
@@ -53,4 +56,21 @@ public class AdminController {
 		return new ResponseEntity<List<User>>(listUser, HttpStatus.OK);
 	}
 
+	//Set AdminRole.
+	@PutMapping("/user/one/adminrole")
+	public String updateAdminRole(@RequestParam int idUser, String updateTime){
+		if(userService.updateAdminRole(idUser, updateTime)){
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+
+	//Delete user.
+	@DeleteMapping("user/one")
+	public String deleteUser(@RequestParam int idUser){
+		if(userService.deleteUser(idUser)){
+			return "success";
+		} else return "fail";
+	}
 }

@@ -20,14 +20,14 @@ public class User {
 	private String nickname;
 	@Column(name = "Password")
 	private String password;
-	@Column(name = "IsAdminRole")
-	private boolean adminRole;
 	@Column(name="CreatedTime")
 	private String createdTime;
 	@Column(name="UpdateTime")
     private String updateTime;
 	@Column(name="DiemCao")
 	private int diemCao;
+	@Column(name="RoleLevel")
+	private int roleLevel;
 	
 	public int getIdUser() {
 		return idUser;
@@ -65,17 +65,18 @@ public class User {
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
-	public boolean isAdminRole() {
-		return adminRole;
-	}
-	public void setAdminRole(boolean adminRole) {
-		this.adminRole = adminRole;
-	}
 	public int getDiemCao() {
 		return diemCao;
 	}
 	public void setDiemCao(int diemCao) {
 		this.diemCao = diemCao;
 	}
-	
+
+	public int getRoleLevel() {
+		return roleLevel;
+	}
+
+	public void setRoleLevel(int roleLevel) {
+		this.roleLevel = roleLevel;
+	}
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,57 +19,73 @@ import com.ailatrieuphu.service.CauHoiService;
 import com.ailatrieuphu.service.UserService;
 
 @RestController
-@RequestMapping("/admin")
 public class AdminController {
-	@Autowired
-	private CauHoiService cauHoiService;
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private CauHoiService cauHoiService;
+    @Autowired
+    private UserService userService;
 
-//--------------------------------------------------CAUHOI-------------------------------------
-	@GetMapping("/cauhoi/all/list")
-	public ResponseEntity<List<CauHoi>> getAllCauHoi() {
-		List<CauHoi> listCauHoi = cauHoiService.getAllCauHoi();
-		if (listCauHoi.isEmpty()) {
-			return new ResponseEntity<List<CauHoi>>(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<CauHoi>>(listCauHoi, HttpStatus.OK);
-	}
+    //--------------------------------------------------CAUHOI-------------------------------------
+    @GetMapping("/admin/cauhoi/all")
+    public ResponseEntity<List<CauHoi>> getAllCauHoi() {
+        List<CauHoi> listCauHoi = cauHoiService.getAllCauHoi();
+        if (listCauHoi.isEmpty()) {
+            return new ResponseEntity<List<CauHoi>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<CauHoi>>(listCauHoi, HttpStatus.OK);
+    }
 
-	// add CauHoi new.
-	@PostMapping("/cauhoi/one")
-	public String addCauHoi(@RequestBody CauHoi cauHoiNew) {
-		if (cauHoiService.addCauHoi(cauHoiNew) == true)
-			return "success";
-		else
-			return "fail";
-	}
-//--------------------------------------------------USER-------------------------------------
-	// get list user
-	@GetMapping("/user/all/list")
-	public ResponseEntity<List<User>> getAllUser() {
-		List<User> listUser = userService.getAllUser();
-		if (listUser.isEmpty()) {
-			return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<User>>(listUser, HttpStatus.OK);
-	}
+    // add CauHoi new.
+    @PostMapping("/admin/cauhoi/one")
+    public String addCauHoi(@RequestBody CauHoi cauHoiNew) {
+        if (cauHoiService.addCauHoi(cauHoiNew) == true)
+            return "success";
+        else
+            return "fail";
+    }
 
-	//Set AdminRole.
-	@PutMapping("/user/one/adminrole")
-	public String updateAdminRole(@RequestParam int idUser, String updateTime){
-		if(userService.updateAdminRole(idUser, updateTime)){
-			return "success";
-		} else {
-			return "fail";
-		}
-	}
+    //--------------------------------------------------USER-------------------------------------
+    // get list user
+    @GetMapping("/admin/user/all-player")
+    public ResponseEntity<List<User>> getAllPlayer() {
+        List<User> listPlayer = userService.getAllPlayer();
+        if (listPlayer.isEmpty()) {
+            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<User>>(listPlayer, HttpStatus.OK);
+    }
 
-	//Delete user.
-	@DeleteMapping("user/one")
-	public String deleteUser(@RequestParam int idUser){
-		if(userService.deleteUser(idUser)){
-			return "success";
-		} else return "fail";
+    //get list all moderator.
+    @GetMapping("/admin/user/all-moderator")
+    public ResponseEntity<List<User>> getAllModerator() {
+        List<User> listModerator = userService.getAllModerator();
+        if (listModerator.isEmpty()) {
+            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<User>>(listModerator, HttpStatus.OK);
+    }
+
+    //Set AdminRole.
+    @PutMapping("/admin/user/one/rolelevel")
+    public String updateRoleLevel(@RequestParam int idUser, int roleLevel, String updateTime) {
+        if (userService.updateRoleLevel(idUser, roleLevel, updateTime)) {
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
+
+    //Delete user.
+    @DeleteMapping("/admin/user/one")
+    public String deleteUser(@RequestParam int idUser) {
+        if (userService.deleteUser(idUser)) {
+            return "success";
+        } else return "fail";
+    }
+
+    //cout cauhois of user.
+	@PostMapping("/admin/user/size-of-cauhoi")
+	public int countCauHoiOfUser(int idUser){
+    	return cauHoiService.countCauHoiOfUser(idUser);
 	}
 }

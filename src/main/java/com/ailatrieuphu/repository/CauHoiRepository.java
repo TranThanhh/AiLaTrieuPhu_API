@@ -14,4 +14,6 @@ public interface CauHoiRepository extends JpaRepository<CauHoi, Integer> {
 	
 	@Query(value = "SELECT LAST_INSERT_ID()", nativeQuery = true)
 	int getLastInsertId();
+
+    int countByIdUser(int idUser);
 }

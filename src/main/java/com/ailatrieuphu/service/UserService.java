@@ -15,8 +15,8 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	//get list user
-	public List<User> getAllUser(){
-		return userRepository.findAll();
+	public List<User> getAllPlayer(){
+		return userRepository.findByRoleLevel(0);
 	}
 	//find user by email and pass to login
 	public User findByEmailAndPassword(String email, String password) {
@@ -62,9 +62,9 @@ public class UserService {
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public boolean updateAdminRole(int idUser, String updateTime) {
+    public boolean updateRoleLevel(int idUser,int roleLevel, String updateTime) {
 		User user=userRepository.findById(idUser).get();
-		user.setAdminRole(true);
+		user.setRoleLevel(roleLevel);
 		user.setUpdateTime(updateTime);
 		try {
 			userRepository.save(user);
@@ -81,5 +81,9 @@ public class UserService {
 		} catch (Exception ex){
 			return false;
 		}
+	}
+
+	public List<User> getAllModerator() {
+		return userRepository.findByRoleLevel(2);
 	}
 }

@@ -29,4 +29,8 @@ public class CauHoiService {
 			return false;
 		}
 	}
+
+	public int countCauHoiOfUser(int idUser) {
+		return cauHoiRepository.countByIdUser(idUser);
+	}
 }

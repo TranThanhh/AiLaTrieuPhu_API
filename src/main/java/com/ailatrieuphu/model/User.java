@@ -20,8 +20,8 @@ public class User {
 	private String nickname;
 	@Column(name = "Password")
 	private String password;
-	@Column(name="CreatedTime")
-	private String createdTime;
+	@Column(name="CreateTime")
+	private String createTime;
 	@Column(name="UpdateTime")
     private String updateTime;
 	@Column(name="DiemCao")
@@ -53,11 +53,11 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getCreatedTime() {
-		return createdTime;
+	public String getCreateTime() {
+		return createTime;
 	}
-	public void setCreatedTime(String createdTime) {
-		this.createdTime = createdTime;
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
 	public String getUpdateTime() {
 		return updateTime;

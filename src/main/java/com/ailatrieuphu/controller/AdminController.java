@@ -26,7 +26,7 @@ public class AdminController {
     private UserService userService;
 
     //--------------------------------------------------CAUHOI-------------------------------------
-    @GetMapping("/admin/cauhoi/all")
+    @GetMapping("/admin/cauhois")
     public ResponseEntity<List<CauHoi>> getAllCauHoi() {
         List<CauHoi> listCauHoi = cauHoiService.getAllCauHoi();
         if (listCauHoi.isEmpty()) {
@@ -36,7 +36,7 @@ public class AdminController {
     }
 
     // add CauHoi new.
-    @PostMapping("/admin/cauhoi/one")
+    @PostMapping("/admin/cauhois")
     public String addCauHoi(@RequestBody CauHoi cauHoiNew) {
         if (cauHoiService.addCauHoi(cauHoiNew) == true)
             return "success";
@@ -46,7 +46,7 @@ public class AdminController {
 
     //--------------------------------------------------USER-------------------------------------
     // get list user
-    @GetMapping("/admin/user/all-player")
+    @GetMapping("/admin/users-player")
     public ResponseEntity<List<User>> getAllPlayer() {
         List<User> listPlayer = userService.getAllPlayer();
         if (listPlayer.isEmpty()) {
@@ -56,7 +56,7 @@ public class AdminController {
     }
 
     //get list all moderator.
-    @GetMapping("/admin/user/all-moderator")
+    @GetMapping("/admin/users-moderator")
     public ResponseEntity<List<User>> getAllModerator() {
         List<User> listModerator = userService.getAllModerator();
         if (listModerator.isEmpty()) {
@@ -66,7 +66,7 @@ public class AdminController {
     }
 
     //Set AdminRole.
-    @PutMapping("/admin/user/one/rolelevel")
+    @PutMapping("/admin/users/role-level")
     public String updateRoleLevel(@RequestParam int idUser, int roleLevel, String updateTime) {
         if (userService.updateRoleLevel(idUser, roleLevel, updateTime)) {
             return "success";
@@ -76,7 +76,7 @@ public class AdminController {
     }
 
     //Delete user.
-    @DeleteMapping("/admin/user/one")
+    @DeleteMapping("/admin/users")
     public String deleteUser(@RequestParam int idUser) {
         if (userService.deleteUser(idUser)) {
             return "success";
@@ -84,7 +84,7 @@ public class AdminController {
     }
 
     //cout cauhois of user.
-	@PostMapping("/admin/user/size-of-cauhoi")
+	@PostMapping("/admin/users/size-of-cauhoi")
 	public int countCauHoiOfUser(int idUser){
     	return cauHoiService.countCauHoiOfUser(idUser);
 	}

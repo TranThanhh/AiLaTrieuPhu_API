@@ -15,66 +15,66 @@ import com.ailatrieuphu.model.User;
 import com.ailatrieuphu.service.UserService;
 
 @RestController
-@RequestMapping("/user")
 public class UserController {
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	// check info before Register
-	@PostMapping("/check")
-	public String checkUser(@RequestBody User u) {
-		if (userService.existsByEmail(u.getEmail())) {
-			return "email";
-		}
-		if (userService.existsByNickname(u.getNickname())) {
-			return "nickname";
-		}
+    // check info before Register
+    @PostMapping("/users-check")
+    public String checkUser(@RequestBody User u) {
+        if (userService.existsByEmail(u.getEmail())) {
+            return "email";
+        }
+        if (userService.existsByNickname(u.getNickname())) {
+            return "nickname";
+        }
 
-		return "no";
-	}
+        return "no";
+    }
 
-	// member Register success
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	@PostMapping("/addUser")
-	public int insertUser(@RequestBody User u) {
-		try {
-			userService.save(u);
-			User user = userService.findByEmailAndPassword(u.getEmail(), u.getPassword());
-			return user.getIdUser();
-		} catch (Exception e) {
-			return 0;
-		}
-	}
+    // member Register success
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @PostMapping("/users")
+    public int insertUser(@RequestBody User u) {
+        try {
+            userService.save(u);
+            User user = userService.findByEmailAndPassword(u.getEmail(), u.getPassword());
+            return user.getIdUser();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 
-	// Login
-	@PostMapping("/login")
-	public ResponseEntity<User> getUserByEmailAndPassword(@RequestBody User u) {
-		User user = userService.findByEmailAndPassword(u.getEmail(), u.getPassword());
-		if (user == null) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} else {
-			return new ResponseEntity<User>(user, HttpStatus.OK);
-		}
-	}
+    // Login
+    @PostMapping("/users-login")
+    public ResponseEntity<User> getUserByEmailAndPassword(@RequestBody User u) {
+        User user = userService.findByEmailAndPassword(u.getEmail(), u.getPassword());
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<User>(user, HttpStatus.OK);
+        }
+    }
 
-	// Change pass
-	@PutMapping("/changePass")
-	public String updatePassword(@RequestBody User userChangePass) {
-		if (userService.updatePassword(userChangePass) == true) {
-			return "success";
-		} else {
-			return "failed";
-		}
+    // Change pass
+    @PutMapping("/users/password")
+    public String updatePassword(@RequestBody User userChangePass) {
+        if (userService.updatePassword(userChangePass) == true) {
+            return "success";
+        } else {
+            return "failed";
+        }
 
-	}
-	// Modify score
-		@PutMapping("/modifyScore")
-		public String updateScore(@RequestBody User userModifyScore) {
-			if (userService.updateScore(userModifyScore) == true) {
-				return "success";
-			} else {
-				return "failed";
-			}
+    }
 
-		}
+    // Modify score
+    @PutMapping("/users/score")
+    public String updateScore(@RequestBody User userModifyScore) {
+        if (userService.updateScore(userModifyScore) == true) {
+            return "success";
+        } else {
+            return "failed";
+        }
+
+    }
 }

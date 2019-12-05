@@ -12,12 +12,11 @@ import com.ailatrieuphu.model.CauHoi;
 import com.ailatrieuphu.service.CauHoiService;
 
 @RestController
-@RequestMapping("/cauhoi")
 public class CauHoiController {
 	@Autowired
 	private CauHoiService cauHoiService;
 	
-	@GetMapping("/list2")
+	@GetMapping("/cauhois/loai")
 	public List<CauHoi> getByIdLoaiCH(@RequestParam int idLoaiCH){
 		return cauHoiService.findByIdLoaiCH(idLoaiCH);
 	}

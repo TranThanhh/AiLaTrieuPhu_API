@@ -28,8 +28,8 @@ public class CauHoi {
 	private int idLoaiCH;
 	@Column(name = "idUser")
 	private int idUser;
-	@Column(name="CreatedTime")
-	private String createdTime;
+	@Column(name="CreateTime")
+	private String createTime;
 	@Column(name="UpdateTime")
     private String updateTime;
 	@Column(name="DapAnDung")	
@@ -83,11 +83,11 @@ public class CauHoi {
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}
-	public String getCreatedTime() {
-		return createdTime;
+	public String getCreateTime() {
+		return createTime;
 	}
-	public void setCreatedTime(String createdTime) {
-		this.createdTime = createdTime;
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
 	public String getUpdateTime() {
 		return updateTime;

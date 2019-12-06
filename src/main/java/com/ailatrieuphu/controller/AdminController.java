@@ -27,8 +27,8 @@ public class AdminController {
 
     //--------------------------------------------------CAUHOI-------------------------------------
     @GetMapping("/admin/cauhois")
-    public ResponseEntity<List<CauHoi>> getAllCauHoi() {
-        List<CauHoi> listCauHoi = cauHoiService.getAllCauHoi();
+    public ResponseEntity<List<CauHoi>> getAllCauHoiActive() {
+        List<CauHoi> listCauHoi = cauHoiService.getAllCauHoiActive();
         if (listCauHoi.isEmpty()) {
             return new ResponseEntity<List<CauHoi>>(HttpStatus.NO_CONTENT);
         }

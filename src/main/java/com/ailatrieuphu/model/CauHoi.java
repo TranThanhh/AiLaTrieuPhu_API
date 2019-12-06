@@ -34,6 +34,9 @@ public class CauHoi {
     private String updateTime;
 	@Column(name="DapAnDung")	
 	private String dapAnDung;
+	@Column(name="IsDeleted")
+	private boolean deleted;
+
 	
 	public int getIdCauHoi() {
 		return idCauHoi;
@@ -101,5 +104,13 @@ public class CauHoi {
 	public void setDapAnDung(String dapAnDung) {
 		this.dapAnDung = dapAnDung;
 	}
-	
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
 }

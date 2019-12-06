@@ -1,24 +1,20 @@
 package com.ailatrieuphu.service;
 
-import java.util.List;
+import com.ailatrieuphu.model.CauHoi;
+import com.ailatrieuphu.repository.CauHoiRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ailatrieuphu.model.CauHoi;
-import com.ailatrieuphu.model.Choi;
-import com.ailatrieuphu.repository.CauHoiRepository;
-import com.ailatrieuphu.repository.ChoiRepository;
+import java.util.List;
 
 @Service
 public class CauHoiService {
     @Autowired
     private CauHoiRepository cauHoiRepository;
-    @Autowired
-    private ChoiRepository choiRepository;
 
-    public List<CauHoi> getAllCauHoi() {
-        return cauHoiRepository.findAll();
+    public List<CauHoi> getAllCauHoiActive() {
+        return cauHoiRepository.findByDeletedFalse();
     }
 
     public List<CauHoi> findByIdLoaiCH(int idLoaiCH) {
@@ -49,14 +45,13 @@ public class CauHoiService {
     }
 
 	public boolean deleteCauHoi(int idCauHoi) {
-        Choi choi=new Choi();
-        choi.setIdUser(1);
-        choi.setIdCauHoi(idCauHoi);
+        CauHoi cauHoi=cauHoiRepository.findById(idCauHoi).get();
+        cauHoi.setDeleted(true);
         try {
-            //cauHoiRepository.deleteById(idCauHoi);
-            choiRepository.save(choi);
+            cauHoiRepository.save(cauHoi);
             return true;
         } catch (Exception ex){
+            System.out.println("Lỗi "+ex.getMessage());
             return false;
         }
 	}

@@ -28,7 +28,9 @@ public class User {
 	private int diemCao;
 	@Column(name="RoleLevel")
 	private int roleLevel;
-	
+	@Column(name="IsDeleted")
+	private boolean deleted;
+
 	public int getIdUser() {
 		return idUser;
 	}
@@ -78,5 +80,13 @@ public class User {
 
 	public void setRoleLevel(int roleLevel) {
 		this.roleLevel = roleLevel;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 }

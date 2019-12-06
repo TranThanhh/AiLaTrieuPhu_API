@@ -44,6 +44,21 @@ public class AdminController {
             return "fail";
     }
 
+    // edit cauhoi.
+    @PutMapping("/admin/cauhois")
+    public String updateCauHoi(@RequestBody CauHoi cauHoiEdit) {
+        if (cauHoiService.updateCauHoi(cauHoiEdit) == true)
+            return "success";
+        else return "fail";
+    }
+
+    //delete cauhoi.
+    @DeleteMapping("/admin/cauhois")
+    public String deleteCauHoi(@RequestParam int idCauHoi){
+        if(cauHoiService.deleteCauHoi(idCauHoi)==true) return "success";
+        else return "fail";
+    }
+
     //--------------------------------------------------USER-------------------------------------
     // get list user
     @GetMapping("/admin/users-player")
@@ -84,8 +99,8 @@ public class AdminController {
     }
 
     //cout cauhois of user.
-	@PostMapping("/admin/users/size-of-cauhoi")
-	public int countCauHoiOfUser(int idUser){
-    	return cauHoiService.countCauHoiOfUser(idUser);
-	}
+    @PostMapping("/admin/users/size-of-cauhoi")
+    public int countCauHoiOfUser(int idUser) {
+        return cauHoiService.countCauHoiOfUser(idUser);
+    }
 }

@@ -40,6 +40,9 @@ public class UserService {
     public void save(User u) {
         userRepository.save(u);
     }
+    public User findByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
 
     //update Password
     public boolean updatePassword(User userUpdate) {

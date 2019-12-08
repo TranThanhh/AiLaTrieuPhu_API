@@ -68,6 +68,20 @@ public class UserController {
         }
 
     }
+    //Forgot Pass
+    @PutMapping("/users/newpassword")
+	public ResponseEntity<?> forgotPassword(@RequestBody User userForgotPass) {
+		User userChangePass = userService.findByEmail(userForgotPass.getEmail());
+		if (userChangePass == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			userChangePass.setPassword(userForgotPass.getPassword());
+			userChangePass.setUpdateTime(userForgotPass.getUpdateTime());
+			userService.save(userChangePass);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+	}
+
 
     // Modify score
     @PutMapping("/users/score")

@@ -81,7 +81,7 @@ public class UserController {
     }
 
     //get list highscore
-    @GetMapping("/users/highscore")
+    @GetMapping("/users/high-score")
     public ResponseEntity<List<User>> getAllPlayerHighScore() {
         List<User> playerHighScoreList = userService.getAllPlayerHighScore();
         if (playerHighScoreList.isEmpty()) {

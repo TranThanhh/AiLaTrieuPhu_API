@@ -20,6 +20,10 @@ public class CauHoiService {
     public List<CauHoi> findByIdLoaiCH(int idLoaiCH) {
         return cauHoiRepository.findByIdLoaiCH(idLoaiCH);
     }
+    
+    public List<CauHoi> findByIdLoaiCHAndDeletedFalse(int idLoaiCH) {
+        return cauHoiRepository.findByIdLoaiCHAndDeletedFalse(idLoaiCH);
+    }
 
     //add new question
     public boolean addCauHoi(CauHoi cauHoiNew) {

@@ -28,11 +28,11 @@ public class AdminController {
     //--------------------------------------------------CAUHOI-------------------------------------
     @GetMapping("/admin/cauhois")
     public ResponseEntity<List<CauHoi>> getAllCauHoiActive() {
-        List<CauHoi> listCauHoi = cauHoiService.getAllCauHoiActive();
-        if (listCauHoi.isEmpty()) {
+        List<CauHoi> cauHoiList = cauHoiService.getAllCauHoiActive();
+        if (cauHoiList.isEmpty()) {
             return new ResponseEntity<List<CauHoi>>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<CauHoi>>(listCauHoi, HttpStatus.OK);
+        return new ResponseEntity<List<CauHoi>>(cauHoiList, HttpStatus.OK);
     }
 
     // add CauHoi new.
@@ -63,21 +63,21 @@ public class AdminController {
     // get list user
     @GetMapping("/admin/users-player")
     public ResponseEntity<List<User>> getAllPlayer() {
-        List<User> listPlayer = userService.getAllPlayer();
-        if (listPlayer.isEmpty()) {
+        List<User> playerList = userService.getAllPlayer();
+        if (playerList.isEmpty()) {
             return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<User>>(listPlayer, HttpStatus.OK);
+        return new ResponseEntity<List<User>>(playerList, HttpStatus.OK);
     }
 
     //get list all moderator.
     @GetMapping("/admin/users-moderator")
     public ResponseEntity<List<User>> getAllModerator() {
-        List<User> listModerator = userService.getAllModerator();
-        if (listModerator.isEmpty()) {
+        List<User> moderatorList = userService.getAllModerator();
+        if (moderatorList.isEmpty()) {
             return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<User>>(listModerator, HttpStatus.OK);
+        return new ResponseEntity<List<User>>(moderatorList, HttpStatus.OK);
     }
 
     //Set AdminRole.

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ailatrieuphu.model.User;
 import com.ailatrieuphu.service.UserService;
+
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -76,5 +79,15 @@ public class UserController {
             return "failed";
         }
 
+    }
+
+    //get list highscore
+    @GetMapping("/users/highscore")
+    public ResponseEntity<List<User>> getAllPlayerHighScore() {
+        List<User> playerHighScoreList = userService.getAllPlayerHighScore();
+        if (playerHighScoreList.isEmpty()) {
+            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<User>>(playerHighScoreList, HttpStatus.OK);
     }
 }

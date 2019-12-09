@@ -62,8 +62,8 @@ public class AdminController {
     //--------------------------------------------------USER-------------------------------------
     // get list user
     @GetMapping("/admin/users-player")
-    public ResponseEntity<List<User>> getAllPlayer() {
-        List<User> playerList = userService.getAllPlayer();
+    public ResponseEntity<List<User>> getAllPlayerActive() {
+        List<User> playerList = userService.getAllPlayerActive();
         if (playerList.isEmpty()) {
             return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
         }
@@ -72,8 +72,8 @@ public class AdminController {
 
     //get list all moderator.
     @GetMapping("/admin/users-moderator")
-    public ResponseEntity<List<User>> getAllModerator() {
-        List<User> moderatorList = userService.getAllModerator();
+    public ResponseEntity<List<User>> getAllModeratorActive() {
+        List<User> moderatorList = userService.getAllModeratorActive();
         if (moderatorList.isEmpty()) {
             return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
         }
@@ -100,7 +100,7 @@ public class AdminController {
 
     //cout cauhois of user.
     @PostMapping("/admin/users/size-of-cauhoi")
-    public int countCauHoiOfUser(int idUser) {
-        return cauHoiService.countCauHoiOfUser(idUser);
+    public int countCauHoiOfUserActive(int idUser) {
+        return cauHoiService.countCauHoiOfUserActive(idUser);
     }
 }

@@ -23,7 +23,7 @@ public class UserController {
 
     // check info before Register
     @PostMapping("/users-check")
-    public String checkUser(@RequestBody User u) {
+    public String checkUserExists(@RequestBody User u) {
         if (userService.existsByEmail(u.getEmail())) {
             return "email";
         }
@@ -35,22 +35,15 @@ public class UserController {
     }
 
     // member Register success
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @PostMapping("/users")
     public int insertUser(@RequestBody User u) {
-        try {
-            userService.save(u);
-            User user = userService.findByEmailAndPassword(u.getEmail(), u.getPassword());
-            return user.getIdUser();
-        } catch (Exception e) {
-            return 0;
-        }
+        return userService.save(u);
     }
 
     // Login
     @PostMapping("/users-login")
-    public ResponseEntity<User> getUserByEmailAndPassword(@RequestBody User u) {
-        User user = userService.findByEmailAndPassword(u.getEmail(), u.getPassword());
+    public ResponseEntity<User> getUserLogin(@RequestBody User u) {
+        User user = userService.findByEmailAndPasswordAndDeletedFalse(u.getEmail(), u.getPassword());
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
@@ -71,15 +64,7 @@ public class UserController {
     //Forgot Pass
     @PutMapping("/users/newpassword")
 	public ResponseEntity<?> forgotPassword(@RequestBody User userForgotPass) {
-		User userChangePass = userService.findByEmail(userForgotPass.getEmail());
-		if (userChangePass == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		} else {
-			userChangePass.setPassword(userForgotPass.getPassword());
-			userChangePass.setUpdateTime(userForgotPass.getUpdateTime());
-			userService.save(userChangePass);
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
+		return userService.fogotPassword(userForgotPass);
 	}
 
 
@@ -96,8 +81,8 @@ public class UserController {
 
     //get list highscore
     @GetMapping("/users/high-score")
-    public ResponseEntity<List<User>> getAllPlayerHighScore() {
-        List<User> playerHighScoreList = userService.getAllPlayerHighScore();
+    public ResponseEntity<List<User>> getAllPlayerHighScoreActive() {
+        List<User> playerHighScoreList = userService.getAllPlayerHighScoreActive();
         if (playerHighScoreList.isEmpty()) {
             return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
         }

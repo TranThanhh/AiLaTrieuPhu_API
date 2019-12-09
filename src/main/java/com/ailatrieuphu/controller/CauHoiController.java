@@ -16,7 +16,7 @@ public class CauHoiController {
 	private CauHoiService cauHoiService;
 	
 	@GetMapping("/cauhois/loai")
-	public List<CauHoi> getByIdLoaiCH(@RequestParam int idLoaiCH){
+	public List<CauHoi> getByIdLoaiCHActive(@RequestParam int idLoaiCH){
 		return cauHoiService.findByIdLoaiCHAndDeletedFalse(idLoaiCH);
 	}
 }

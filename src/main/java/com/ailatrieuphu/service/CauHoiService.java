@@ -5,6 +5,8 @@ import com.ailatrieuphu.repository.CauHoiRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,10 +17,6 @@ public class CauHoiService {
 
     public List<CauHoi> getAllCauHoiActive() {
         return cauHoiRepository.findByDeletedFalse();
-    }
-
-    public List<CauHoi> findByIdLoaiCH(int idLoaiCH) {
-        return cauHoiRepository.findByIdLoaiCH(idLoaiCH);
     }
     
     public List<CauHoi> findByIdLoaiCHAndDeletedFalse(int idLoaiCH) {
@@ -35,8 +33,8 @@ public class CauHoiService {
         }
     }
 
-    public int countCauHoiOfUser(int idUser) {
-        return cauHoiRepository.countByIdUser(idUser);
+    public int countCauHoiOfUserActive(int idUser) {
+        return cauHoiRepository.countByIdUserAndDeletedFalse(idUser);
     }
 
     public boolean updateCauHoi(CauHoi cauHoiEdit) {
@@ -48,6 +46,7 @@ public class CauHoiService {
 		}
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public boolean deleteCauHoi(int idCauHoi) {
         CauHoi cauHoi=cauHoiRepository.findById(idCauHoi).get();
         cauHoi.setDeleted(true);

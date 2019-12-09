@@ -14,5 +14,5 @@ public interface CauHoiRepository extends JpaRepository<CauHoi, Integer> {
 
 	List<CauHoi> findAll();
 
-    int countByIdUser(int idUser);
+    int countByIdUserAndDeletedFalse(int idUser);
 }

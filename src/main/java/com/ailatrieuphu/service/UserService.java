@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,13 +19,13 @@ public class UserService {
     private UserRepository userRepository;
 
     //get list user
-    public List<User> getAllPlayer() {
-        return userRepository.findByRoleLevel(0);
+    public List<User> getAllPlayerActive() {
+        return userRepository.findByRoleLevelAndDeletedFalse(0);
     }
 
     //find user by email and pass to login
-    public User findByEmailAndPassword(String email, String password) {
-        return userRepository.findByEmailAndPassword(email, password);
+    public User findByEmailAndPasswordAndDeletedFalse(String email, String password) {
+        return userRepository.findByEmailAndPasswordAndDeletedFalse(email, password);
     }
 
     //check exist Nickname
@@ -36,15 +38,8 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    //Save user
-    public void save(User u) {
-        userRepository.save(u);
-    }
-    public User findByEmail(String email) {
-		return userRepository.findByEmail(email);
-	}
-
     //update Password
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public boolean updatePassword(User userUpdate) {
         User user = userRepository.findById(userUpdate.getIdUser()).get();
         user.setPassword(userUpdate.getPassword());
@@ -59,6 +54,7 @@ public class UserService {
     }
 
     //update Score
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public boolean updateScore(User userUpdate) {
         User user = userRepository.findById(userUpdate.getIdUser()).get();
         user.setDiemCao(userUpdate.getDiemCao());
@@ -85,20 +81,47 @@ public class UserService {
         }
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public boolean deleteUser(int idUser) {
+        User userDelete=userRepository.findById(idUser).get();
+        userDelete.setDeleted(true);
         try {
-            userRepository.deleteById(idUser);
+            userRepository.save(userDelete);
             return true;
         } catch (Exception ex) {
             return false;
         }
     }
 
-    public List<User> getAllModerator() {
-        return userRepository.findByRoleLevel(2);
+    public List<User> getAllModeratorActive() {
+        return userRepository.findByRoleLevelAndDeletedFalse(2);
     }
 
-    public List<User> getAllPlayerHighScore() {
-        return userRepository.findByRoleLevelAndDiemCaoGreaterThan(0,0, Sort.by("DiemCao").descending());
+    public List<User> getAllPlayerHighScoreActive() {
+        return userRepository.findByRoleLevelAndDiemCaoGreaterThanAndDeletedFalse(0,0, Sort.by("DiemCao").descending());
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public int save(User u) {
+        try {
+            userRepository.save(u);
+            User user = userRepository.findByEmailAndPasswordAndDeletedFalse(u.getEmail(), u.getPassword());
+            return user.getIdUser();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public ResponseEntity<?> fogotPassword(User userForgotPass) {
+        User userChangePass = userRepository.findByEmailAndDeletedFalse(userForgotPass.getEmail());
+        if (userChangePass == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            userChangePass.setPassword(userForgotPass.getPassword());
+            userChangePass.setUpdateTime(userForgotPass.getUpdateTime());
+            userRepository.save(userChangePass);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 }

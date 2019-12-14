@@ -124,4 +124,8 @@ public class UserService {
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
+
+    public String getNickname(int idUser) {
+        return userRepository.findById(idUser).get().getNickname();
+    }
 }

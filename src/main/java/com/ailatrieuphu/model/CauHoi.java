@@ -112,5 +112,4 @@ public class CauHoi {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
-
 }

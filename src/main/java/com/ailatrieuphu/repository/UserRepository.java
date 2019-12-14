@@ -7,13 +7,16 @@ import com.ailatrieuphu.model.User;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<User, Integer>{
-	User findByEmailAndPasswordAndDeletedFalse(String email, String password);
-	boolean existsByEmail(String mail);
-	boolean existsByNickname(String nickname);
-	User findByEmailAndDeletedFalse(String email);
+public interface UserRepository extends JpaRepository<User, Integer> {
+    User findByEmailAndPasswordAndDeletedFalse(String email, String password);
+
+    boolean existsByEmail(String mail);
+
+    boolean existsByNickname(String nickname);
+
+    User findByEmailAndDeletedFalse(String email);
 
     List<User> findByRoleLevelAndDiemCaoGreaterThanAndDeletedFalse(int roleLevel, int muc, Sort diemCao);
 
-	List<User> findByRoleLevelAndDeletedFalse(int roleLevel);
+    List<User> findByRoleLevelAndDeletedFalse(int roleLevel);
 }

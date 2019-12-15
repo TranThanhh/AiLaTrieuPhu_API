@@ -18,7 +18,7 @@ public class CauHoiService {
     public List<CauHoi> getAllCauHoiActive() {
         return cauHoiRepository.findByDeletedFalse();
     }
-    
+
     public List<CauHoi> findByIdLoaiCHAndDeletedFalse(int idLoaiCH) {
         return cauHoiRepository.findByIdLoaiCHAndDeletedFalse(idLoaiCH);
     }
@@ -38,24 +38,32 @@ public class CauHoiService {
     }
 
     public boolean updateCauHoi(CauHoi cauHoiEdit) {
-		try {
-			cauHoiRepository.save(cauHoiEdit);
-			return true;
-		} catch (Exception ex) {
-			return false;
-		}
+        try {
+            cauHoiRepository.save(cauHoiEdit);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public boolean deleteCauHoi(int idCauHoi) {
-        CauHoi cauHoi=cauHoiRepository.findById(idCauHoi).get();
+    public boolean deleteCauHoi(int idCauHoi) {
+        CauHoi cauHoi = cauHoiRepository.findById(idCauHoi).get();
         cauHoi.setDeleted(true);
         try {
             cauHoiRepository.save(cauHoi);
             return true;
-        } catch (Exception ex){
-            System.out.println("Lỗi "+ex.getMessage());
+        } catch (Exception ex) {
+            System.out.println("Lỗi " + ex.getMessage());
             return false;
         }
-	}
+    }
+
+    public List<CauHoi> searchCauHoiActive(String keyWord) {
+        String noiDung = keyWord;
+        String createTime = keyWord;
+        String updateTime = keyWord;
+
+        return cauHoiRepository.searchCauHoiActive(noiDung, createTime, updateTime);
+    }
 }

@@ -83,7 +83,7 @@ public class UserService {
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public boolean deleteUser(int idUser) {
-        User userDelete=userRepository.findById(idUser).get();
+        User userDelete = userRepository.findById(idUser).get();
         userDelete.setDeleted(true);
         try {
             userRepository.save(userDelete);
@@ -98,7 +98,7 @@ public class UserService {
     }
 
     public List<User> getAllPlayerHighScoreActive() {
-        return userRepository.findByRoleLevelAndDiemCaoGreaterThanAndDeletedFalse(0,0, Sort.by("DiemCao").descending());
+        return userRepository.findByRoleLevelAndDiemCaoGreaterThanAndDeletedFalse(0, 0, Sort.by("DiemCao").descending());
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -127,5 +127,13 @@ public class UserService {
 
     public String getNickname(int idUser) {
         return userRepository.findById(idUser).get().getNickname();
+    }
+
+    public List<User> searchPlayerActive(String keyWord) {
+        String email = keyWord;
+        String nickname = keyWord;
+        String createTime = keyWord;
+        String updateTime = keyWord;
+        return userRepository.searchPlayerActive(email, nickname, createTime, updateTime);
     }
 }

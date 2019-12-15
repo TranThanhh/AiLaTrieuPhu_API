@@ -59,6 +59,16 @@ public class AdminController {
         else return "fail";
     }
 
+    //search cauhoi.
+    @GetMapping("/admin/cauhois/filter")
+    public ResponseEntity<List<CauHoi>> searchCauHoiActive(@RequestParam String keyWord) {
+        List<CauHoi> cauHoiList = cauHoiService.searchCauHoiActive(keyWord);
+        if (cauHoiList.isEmpty()) {
+            return new ResponseEntity<List<CauHoi>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<CauHoi>>(cauHoiList, HttpStatus.OK);
+    }
+
     //--------------------------------------------------USER-------------------------------------
     // get list user
     @GetMapping("/admin/users-player")
@@ -102,5 +112,15 @@ public class AdminController {
     @PostMapping("/admin/users/size-of-cauhoi")
     public int countCauHoiOfUserActive(int idUser) {
         return cauHoiService.countCauHoiOfUserActive(idUser);
+    }
+
+    //search player.
+    @GetMapping("/admin/users/filter-player")
+    public ResponseEntity<List<User>> searchPlayerActive(@RequestParam String keyWord) {
+        List<User> userList = userService.searchPlayerActive(keyWord);
+        if (userList.isEmpty()) {
+            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<User>>(userList, HttpStatus.OK);
     }
 }

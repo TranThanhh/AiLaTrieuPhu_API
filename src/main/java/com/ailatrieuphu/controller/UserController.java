@@ -20,6 +20,22 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    //get list highscore
+    @GetMapping("/users/high-score")
+    public ResponseEntity<List<User>> getAllPlayerHighScoreActive() {
+        List<User> playerHighScoreList = userService.getAllPlayerHighScoreActive();
+        if (playerHighScoreList.isEmpty()) {
+            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<User>>(playerHighScoreList, HttpStatus.OK);
+    }
+
+    //get author of cauhoi.
+    @GetMapping("/users/nickname")
+    public String getNickname(@RequestParam int idUser){
+        return userService.getNickname(idUser);
+    }
+
     // check info before Register
     @PostMapping("/users-check")
     public String checkUserExists(@RequestBody User u) {
@@ -75,22 +91,5 @@ public class UserController {
         } else {
             return "failed";
         }
-
-    }
-
-    //get list highscore
-    @GetMapping("/users/high-score")
-    public ResponseEntity<List<User>> getAllPlayerHighScoreActive() {
-        List<User> playerHighScoreList = userService.getAllPlayerHighScoreActive();
-        if (playerHighScoreList.isEmpty()) {
-            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<List<User>>(playerHighScoreList, HttpStatus.OK);
-    }
-
-    //get author of cauhoi.
-    @GetMapping("/users/nickname")
-    public String getNickname(@RequestParam int idUser){
-        return userService.getNickname(idUser);
     }
 }

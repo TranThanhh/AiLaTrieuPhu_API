@@ -24,8 +24,8 @@ public class UserService {
     }
 
     //find user by email and pass to login
-    public User findByEmailAndPasswordAndDeletedFalse(String email, String password) {
-        return userRepository.findByEmailAndPasswordAndDeletedFalse(email, password);
+    public User findByEmailAndDeletedFalse(String email) {
+        return userRepository.findByEmailAndDeletedFalse(email);
     }
 
     //check exist Nickname

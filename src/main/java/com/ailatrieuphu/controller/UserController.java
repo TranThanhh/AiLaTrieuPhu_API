@@ -1,5 +1,6 @@
 package com.ailatrieuphu.controller;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class UserController {
 
     //get author of cauhoi.
     @GetMapping("/users/nickname")
-    public String getNickname(@RequestParam int idUser){
+    public String getNickname(@RequestParam int idUser) {
         return userService.getNickname(idUser);
     }
 
@@ -58,11 +59,12 @@ public class UserController {
     // Login
     @PostMapping("/users-login")
     public ResponseEntity<User> getUserLogin(@RequestBody User u) {
-        User user = userService.findByEmailAndPasswordAndDeletedFalse(u.getEmail(), u.getPassword());
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        User user = userService.findByEmailAndDeletedFalse(u.getEmail());
+        if (user != null){
+            if(BCrypt.checkpw(u.getPassword(),user.getPassword())) return new ResponseEntity<User>(user, HttpStatus.OK);
+            else return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<User>(user, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
@@ -76,11 +78,12 @@ public class UserController {
         }
 
     }
+
     //Forgot Pass
     @PutMapping("/users/newpassword")
-	public ResponseEntity<?> forgotPassword(@RequestBody User userForgotPass) {
-		return userService.fogotPassword(userForgotPass);
-	}
+    public ResponseEntity<?> forgotPassword(@RequestBody User userForgotPass) {
+        return userService.fogotPassword(userForgotPass);
+    }
 
 
     // Modify score
